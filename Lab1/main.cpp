@@ -177,24 +177,23 @@ void drawFlyer()
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0, 13, 0);
-	glScalef(10,10,10);
+		glTranslatef(0, 13, 0);
+		glScalef(10,10,10);
 
-	//make flyer wheel
-	for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
-		makeCircle(i); 
-	}
-
+		//make flyer wheel
+		for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
+			makeCircle(i); 
+		}
 	glPopMatrix();
 	
 	glPushMatrix();
-	glTranslatef(0, 13, 0);
-	glScalef(10.5, 10.5, 10.5);
+		glTranslatef(0, 13, 0);
+		glScalef(10.5, 10.5, 10.5);
 	
-	//make flyer wheel
-	for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
-		makeCircle(i);
-	}
+		//make flyer wheel
+		for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
+			makeCircle(i);
+		}
 	glPopMatrix();
 
 	int x = 0, y = 0;
@@ -204,43 +203,36 @@ void drawFlyer()
 
 	glColor3f(1,0,0);
 	glPushMatrix();
-	glTranslatef(0,13,0);
+		glTranslatef(0,13,0);
 
-	for (int j = 0; j <= 360 - animateFlyerWheel; j+=40)   {
+		for (int j = 0; j <= 360 - animateFlyerWheel; j+=40)   {
+			theta = (3.14259 / 180) * j;
+			nextTheta = (3.14259 / 180) * (j + 1);
+			x1 = sin(theta); y1 = cos(theta);
+			x2 = sin(nextTheta); y2 = cos(nextTheta);
 		
-		theta = (3.14259 / 180) * j;
-		nextTheta = (3.14259 / 180) * (j + 1);
-		x1 = sin(theta); y1 = cos(theta);
-		x2 = sin(nextTheta); y2 = cos(nextTheta);
-		
-		glPushMatrix();
-		
-		glTranslatef(11*x1, 11*y1,0);
-		glScalef(0.5, 0.5, 0.5);
-		for (int i = 0; i <= 360; i++)   {
-			makeCircle(i);
+			glPushMatrix();
+				glTranslatef(11*x1, 11*y1,0);
+				glScalef(0.5, 0.5, 0.5);
+				for (int i = 0; i <= 360; i++)   {
+					makeCircle(i);
+				}
+			glPopMatrix();
 		}
 
-		glPopMatrix();
-	
-		
-	}
-
-	if (animateFlyerWheel >= 0) {
-		animateFlyerWheel -= counter * 2;
-	}
-
+		if (animateFlyerWheel >= 0) {
+			animateFlyerWheel -= counter * 2;
+		}
 	glPopMatrix();
-	
 
 }
 void drawLine(double length)
 {
 
 	glBegin(GL_LINE_STRIP);
-	glColor3f(1.0, 0, 0);
-	glVertex2f(0, 0);
-	glVertex2f(0, length);
+		glColor3f(1.0, 0, 0);
+		glVertex2f(0, 0);
+		glVertex2f(0, length);
 	glEnd();
 
 }
@@ -253,7 +245,7 @@ void drawFork(int n, int degree, int toFork, double lengthOfLine)
 	
 	glPushMatrix();
 		glTranslatef(0,lengthOfLine,0);
-		glPushMatrix();
+			glPushMatrix();
 			glRotatef(degree, 0, 0, 1);
 			glScalef(0.55, 0.55, 0.55);
 			drawFork(n-1, degree-10, toFork-1, lengthOfLine-0.25);
@@ -274,10 +266,10 @@ void drawFork(int n, int degree, int toFork, double lengthOfLine)
 
 void drawSuperTree() {
 	glPushMatrix();
-	drawSuperTreeCurve(); //draw one half of the tree
-	glScalef(-1, 1, 1);
-	drawSuperTreeCurve(); //draw the other half of the tree
-	glPopMatrix();
+		drawSuperTreeCurve(); //draw one half of the tree
+		glScalef(-1, 1, 1);
+		drawSuperTreeCurve(); //draw the other half of the tree
+		glPopMatrix();
 	
 }
 void display(void)
@@ -286,50 +278,50 @@ void display(void)
 	
 	glPushMatrix();
 
-	//controls transformation
-	glScalef(k, k, k);	
-	glTranslatef(tx, ty, 0);	
-	glRotatef(alpha, 0, 0, 1);
+		//controls transformation
+		glScalef(k, k, k);	
+		glTranslatef(tx, ty, 0);	
+		glRotatef(alpha, 0, 0, 1);
 	
-	//draw your stuff here
-	glPushMatrix();
-	if (animateLine >= 0) {
-		animateLine -= counter/3;
-	}
-	glTranslatef(-10, 0, 0);
-	glRotatef(-90,0,0,1);
-	drawLine(60-animateLine);
-	glPopMatrix();
+		//draw your stuff here
+		glPushMatrix();
+			if (animateLine >= 0) {
+				animateLine -= counter/3;
+			}
+			glTranslatef(-10, 0, 0);
+			glRotatef(-90,0,0,1);
+			drawLine(60-animateLine);
+		glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(1.0, 0, 0);
-	glTranslatef(-5,0,0);
-	drawSuperTree();
-	glPopMatrix();
+		glPushMatrix();
+			glColor3f(1.0, 0, 0);
+			glTranslatef(-5,0,0);
+			drawSuperTree();
+		glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(1.0,0,0);
-	glTranslatef(-1,0,0);
-	glScalef(0.5, 0.5, 0.5);
-	drawSuperTree();
-	glPopMatrix();
+		glPushMatrix();
+			glColor3f(1.0,0,0);
+			glTranslatef(-1,0,0);
+			glScalef(0.5, 0.5, 0.5);
+			drawSuperTree();
+		glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(1.0, 0, 0);
-	glTranslatef(5, 0, 0);
-	glScalef(0.7, 0.7, 0.7);
-	drawSuperTree();
-	glPopMatrix();
+		glPushMatrix();
+			glColor3f(1.0, 0, 0);
+			glTranslatef(5, 0, 0);
+			glScalef(0.7, 0.7, 0.7);
+			drawSuperTree();
+		glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(10,0,0);
-	drawMarina();
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(10,0,0);
+			drawMarina();
+		glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(40, 0, 0);
-	drawFlyer();
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(40, 0, 0);
+			drawFlyer();
+		glPopMatrix();
 
 	glPopMatrix();
 
