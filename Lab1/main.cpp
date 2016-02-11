@@ -21,6 +21,16 @@ float tx = 0.0, ty=0.0;
 #define PI 3.142
 #define TWICE_PI 2.0*3.142
 
+float animateTreeTop = 159;
+float animateTrunk = 347.5;
+float animateMarinaBuilding = 
+float animateMarinaTop =
+float animateFlyerStick =
+float animateFlyerWheel =
+float animateFlyerCarriage =
+
+
+float counter = 0.05;
 void drawSuperTreeCurve()
 {
 	int x = 0,y = 0;
@@ -33,8 +43,11 @@ void drawSuperTreeCurve()
 	glPushMatrix();
 	glTranslatef(0,10.72,0);
 	glScalef(5, 1, 1);
+	if (animateTreeTop >= 0) {
+	animateTreeTop -= counter;
+	}
 		glBegin(GL_LINE_STRIP); //begin circle
-		for (int i = 0; i <= 159; i++)   {
+		for (int i = 0; i <= 159-animateTreeTop; i++)   {
 			theta = (3.14259/180) * i;
 			nextTheta = (3.14259 / 180) * (i+1);
 			x1 = sin(theta); y1 = cos(theta);
@@ -47,14 +60,18 @@ void drawSuperTreeCurve()
 		
 		}
 		glEnd();
+		glutPostRedisplay();
 	glPopMatrix();
 	
 	//Draw Tree Trunk
 	glPushMatrix();
 	glTranslatef(2, 0, 0);
 	glScalef(1.5,10,1);
+	if (animateTrunk >= 0) {
+		animateTrunk -= counter;
+	}
 		glBegin(GL_LINE_STRIP); //begin circle
-		for (int i = 270; i <= 347.5; i++)   {
+		for (int i = 270; i <= 347.5-animateTrunk; i++)   {
 			theta = (3.14259 / 180) * i;
 			nextTheta = (3.14259 / 180) * (i + 1);
 			x1 = sin(theta); y1 = cos(theta);
