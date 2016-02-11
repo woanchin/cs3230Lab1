@@ -16,182 +16,197 @@ using namespace std;
 float alpha = 0.0, k=1;
 float tx = 0.0, ty=0.0;
 
-#define HALF 'H'
-#define FULL 'F'
-#define PI 3.142
-#define TWICE_PI 2.0*3.142
-
 float animateTreeTop = 159;
 float animateTrunk = 347.5;
-//float animateMarinaBuilding = 
+float animateMarinaBuilding = 0;
+float animateMarinaHoriBuilding = -2;
 float animateMarinaTop = 360;
-//float animateFlyerStick =
 float animateFlyerWheel = 360;
 float animateFlyerWheelTwo = 360;
 float animateFlyerCarriage = 360;
-
+float animateFlyerStick = 0;
+float animateLine = 60;
+float timeLine = 0;
 
 float counter = 0.05;
-void drawSuperTreeCurve()
-{
-	int x = 0,y = 0;
+
+void makeCircle(int i) {
+
+	int x = 0, y = 0;
 	double theta, nextTheta;
 	double x1, y1;
 	double x2, y2;
 
+	glBegin(GL_LINE_STRIP);
+	theta = (3.14259 / 180) * i;
+	nextTheta = (3.14259 / 180) * (i + 1);
+	x1 = sin(theta); y1 = cos(theta);
+	x2 = sin(nextTheta); y2 = cos(nextTheta);
+
+	glVertex2f(x1, y1);
+	glVertex2f(x2, y2);
+	glEnd();
+}
+
+void drawSuperTreeCurve()
+{
 	//Draw Tree Top
 	glLineWidth(2.0);
 	glPushMatrix();
-	glTranslatef(0,10.72,0);
-	glScalef(5, 1, 1);
-	if (animateTreeTop >= 0) {
-	animateTreeTop -= counter;
-	}
-		glBegin(GL_LINE_STRIP); //begin circle
-		for (int i = 0; i <= 159-animateTreeTop; i++)   {
-			theta = (3.14259/180) * i;
-			nextTheta = (3.14259 / 180) * (i+1);
-			x1 = sin(theta); y1 = cos(theta);
-			x2 = sin(nextTheta); y2 = cos(nextTheta);
-
-			glVertex2f(x1, y1);
-			glVertex2f(x2, y2);
-			//	glVertex2f((i/360.0)*x1, (i/360.0)*y1);
-			//	glVertex2f(((i + 1) / 360.0)*x2, ((i+1)/360.0)*y2);
-		
+		glTranslatef(0,10.72,0);
+		glScalef(5, 1, 1);
+	
+	for (int i = 0; i <= 159-animateTreeTop; i++)   {
+			makeCircle(i);
 		}
-		glEnd();
-		glutPostRedisplay();
 	glPopMatrix();
 	
 	//Draw Tree Trunk
 	glPushMatrix();
-	glTranslatef(2, 0, 0);
-	glScalef(1.5,10,1);
-	if (animateTrunk >= 0) {
-		animateTrunk -= counter;
-	}
-		glBegin(GL_LINE_STRIP); //begin circle
+		glTranslatef(2, 0, 0);
+		glScalef(1.5,10,1);
+			 
 		for (int i = 270; i <= 347.5-animateTrunk; i++)   {
-			theta = (3.14259 / 180) * i;
-			nextTheta = (3.14259 / 180) * (i + 1);
-			x1 = sin(theta); y1 = cos(theta);
-			x2 = sin(nextTheta); y2 = cos(nextTheta);
-
-			glVertex2f(x1, y1);
-			glVertex2f(x2, y2);
-		}
-		glEnd();
+			makeCircle(i);
+		}		
 	glPopMatrix();
 	
+	if (animateTreeTop >= 0 || animateTrunk >=0) {
+		animateTreeTop -= counter;
+	}
 }
 
 void drawMarina()
 {
 
-	int x = 0, y = 0;
-	double theta, nextTheta;
-	double x1, y1;
-	double x2, y2;
-
-	glRectd(0,0,4,15);
-
-	glRectd(6,0, 10,15);
-
-	glRectd(12,0, 16,15);
-
-	glRectd(-2, 15, 17, 17);
-
-	glPushMatrix();
-	glLineWidth(1);
-	glTranslatef(-2, 16,0);
-	glBegin(GL_TRIANGLE_FAN); //begin circle
-	for (int i = 180; i <= 360; i++)   {
-		theta = (3.14259 / 180) * i;
-		nextTheta = (3.14259 / 180) * (i + 1);
-		x1 = sin(theta); y1 = cos(theta);
-		x2 = sin(nextTheta); y2 = cos(nextTheta);
-
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y2);
-	}
+	glColor3f(1,0,0);
+	
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(0, 0);
+		glVertex2f(0,animateMarinaBuilding);
 	glEnd();
 
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(4, 15);
+		glVertex2f(4,15 - animateMarinaBuilding);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(6,0);
+		glVertex2f(6,animateMarinaBuilding);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(10,15);
+		glVertex2f(10, 15 - animateMarinaBuilding);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(12,0);
+		glVertex2f(12,animateMarinaBuilding);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(16,15);
+		glVertex2f(16, 15 - animateMarinaBuilding);
+	glEnd();
+
+	if (animateMarinaBuilding <= 15) {
+		animateMarinaBuilding += 0.005;
+	}
+	
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(-2, 15);
+		glVertex2f(animateMarinaHoriBuilding,15);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(17,16);
+		glVertex2f(17,15);
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(17,16);
+		glVertex2f(15 - animateMarinaHoriBuilding,16);
+	glEnd();
+	
+	if (animateMarinaHoriBuilding <= 17) {
+		animateMarinaHoriBuilding += 0.005;
+	}
+
+	glPushMatrix();
+		glLineWidth(2);
+		glTranslatef(-2, 15.5,0);
+		glScalef(0.5,0.5,0.5);
+		if (animateMarinaTop >= 0) {
+			animateMarinaTop -= counter*2;
+		}
+		 
+		for (int i = 180; i <= 360 -animateMarinaTop; i++)   {
+			makeCircle(i);
+		}
 	glPopMatrix();
 }
 
 void drawFlyer()
 {
-
-	
-	int x = 0, y = 0;
-	double theta, nextTheta;
-	double x1, y1;
-	double x2, y2;
-
 	glLineWidth(1);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(-0.5,0);
-	glVertex2f(-0.5,13);
-	glVertex2f(0.5,13);
-	glVertex2f(0.5,0);
+	
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(-0.5,0);
+		glVertex2f(-0.5,animateFlyerStick);
 	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+		glVertex2f(0.5,0);
+		glVertex2f(0.5,animateFlyerStick);
+	glEnd();
+
+	if (animateFlyerStick <= 13) {
+		animateFlyerStick += 0.005;
+	}
 
 	glPushMatrix();
-	glTranslatef(0, 13, 0);
-	glScalef(0.5, 0.5, 0.5);
-
-	glBegin(GL_LINE_STRIP); //begin circle
-	for (int i = 0; i <= 360; i++)   {
-		theta = (3.14259 / 180) * i;
-		nextTheta = (3.14259 / 180) * (i + 1);
-		x1 = sin(theta); y1 = cos(theta);
-		x2 = sin(nextTheta); y2 = cos(nextTheta);
-
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y2);
-	}
-	glEnd();
+		glTranslatef(0, 13, 0);
+		glScalef(0.5, 0.5, 0.5);
+	
+		//making small circle in the middle
+		for (int i = 0; i <= 360; i++)   {
+			makeCircle(i);
+		}
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0, 13, 0);
 	glScalef(10,10,10);
-	
-	glBegin(GL_LINE_STRIP); //begin circle
-	for (int i = 0; i <= 360; i++)   {
-		theta = (3.14259 / 180) * i;
-		nextTheta = (3.14259 / 180) * (i + 1);
-		x1 = sin(theta); y1 = cos(theta);
-		x2 = sin(nextTheta); y2 = cos(nextTheta);
 
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y2);
+	//make flyer wheel
+	for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
+		makeCircle(i); 
 	}
-	glEnd();
+
 	glPopMatrix();
 	
 	glPushMatrix();
 	glTranslatef(0, 13, 0);
 	glScalef(10.5, 10.5, 10.5);
 	
-	glBegin(GL_LINE_STRIP); //begin circle
-	for (int i = 0; i <= 360; i++)   {
-		theta = (3.14259 / 180) * i;
-		nextTheta = (3.14259 / 180) * (i + 1);
-		x1 = sin(theta); y1 = cos(theta);
-		x2 = sin(nextTheta); y2 = cos(nextTheta);
-
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y2);
+	//make flyer wheel
+	for (int i = 0; i <= 360 - animateFlyerWheel; i++)   {
+		makeCircle(i);
 	}
-	glEnd();
 	glPopMatrix();
+
+	int x = 0, y = 0;
+	double theta, nextTheta;
+	double x1, y1;
+	double x2, y2;
 
 	glColor3f(1,0,0);
 	glPushMatrix();
 	glTranslatef(0,13,0);
-	for (int j = 0; j <= 360; j+=40)   {
+
+	for (int j = 0; j <= 360 - animateFlyerWheel; j+=40)   {
 		
 		theta = (3.14259 / 180) * j;
 		nextTheta = (3.14259 / 180) * (j + 1);
@@ -199,22 +214,20 @@ void drawFlyer()
 		x2 = sin(nextTheta); y2 = cos(nextTheta);
 		
 		glPushMatrix();
-		glScalef(0.5,0.5,0.5);
-		glTranslatef(22*x1, 22*y1,0);
-		glBegin(GL_LINE_STRIP);
+		
+		glTranslatef(11*x1, 11*y1,0);
+		glScalef(0.5, 0.5, 0.5);
 		for (int i = 0; i <= 360; i++)   {
-			theta = (3.14259 / 180) * i;
-			nextTheta = (3.14259 / 180) * (i + 1);
-			x1 = sin(theta); y1 = cos(theta);
-			x2 = sin(nextTheta); y2 = cos(nextTheta);
-			
-			glVertex2f(x1, y1);
-			glVertex2f(x2, y2);
+			makeCircle(i);
 		}
-		glEnd();
+
 		glPopMatrix();
 	
 		
+	}
+
+	if (animateFlyerWheel >= 0) {
+		animateFlyerWheel -= counter * 2;
 	}
 
 	glPopMatrix();
@@ -260,22 +273,6 @@ void drawFork(int n, int degree, int toFork, double lengthOfLine)
 
 
 void drawSuperTree() {
-	/*
-	glPushMatrix();
-		glTranslatef(-0.5,0,0);
-		drawFork(2, 65, 1, 3.75);
-	glPopMatrix();
-	
-	glPushMatrix();
-		drawFork(1, 45, 2, 4);
-	glPopMatrix();
-	
-	glPushMatrix();
-		glTranslatef(0.5, 0, 0);
-		glScalef(-1, 1, 1);
-		drawFork(2, 65, 1, 3.75);
-	glPopMatrix();
-	*/
 	glPushMatrix();
 	drawSuperTreeCurve(); //draw one half of the tree
 	glScalef(-1, 1, 1);
@@ -296,11 +293,14 @@ void display(void)
 	
 	//draw your stuff here
 	glPushMatrix();
+	if (animateLine >= 0) {
+		animateLine -= counter/3;
+	}
 	glTranslatef(-10, 0, 0);
 	glRotatef(-90,0,0,1);
-	
-	drawLine(60);
+	drawLine(60-animateLine);
 	glPopMatrix();
+
 	glPushMatrix();
 	glColor3f(1.0, 0, 0);
 	glTranslatef(-5,0,0);
@@ -332,11 +332,10 @@ void display(void)
 	glPopMatrix();
 
 	glPopMatrix();
+
+	glutPostRedisplay();
 	glFlush();
 }
-
-
-
 
 void reshape (int w, int h)
 {
