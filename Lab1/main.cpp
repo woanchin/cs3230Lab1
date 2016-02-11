@@ -23,11 +23,12 @@ float tx = 0.0, ty=0.0;
 
 float animateTreeTop = 159;
 float animateTrunk = 347.5;
-float animateMarinaBuilding = 
-float animateMarinaTop =
-float animateFlyerStick =
-float animateFlyerWheel =
-float animateFlyerCarriage =
+//float animateMarinaBuilding = 
+float animateMarinaTop = 360;
+//float animateFlyerStick =
+float animateFlyerWheel = 360;
+float animateFlyerWheelTwo = 360;
+float animateFlyerCarriage = 360;
 
 
 float counter = 0.05;
