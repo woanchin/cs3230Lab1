@@ -22,11 +22,10 @@ float animateMarinaBuilding = 0;
 float animateMarinaHoriBuilding = -2;
 float animateMarinaTop = 360;
 float animateFlyerWheel = 360;
-float animateFlyerWheelTwo = 360;
-float animateFlyerCarriage = 360;
 float animateFlyerStick = 0;
 float animateLine = 60;
 float timeLine = 0;
+float turningXOne = 0;
 
 float counter = 0.05;
 
@@ -38,13 +37,13 @@ void makeCircle(int i) {
 	double x2, y2;
 
 	glBegin(GL_LINE_STRIP);
-	theta = (3.14259 / 180) * i;
-	nextTheta = (3.14259 / 180) * (i + 1);
-	x1 = sin(theta); y1 = cos(theta);
-	x2 = sin(nextTheta); y2 = cos(nextTheta);
+		theta = (3.14259 / 180) * i;
+		nextTheta = (3.14259 / 180) * (i + 1);
+		x1 = sin(theta); y1 = cos(theta);
+		x2 = sin(nextTheta); y2 = cos(nextTheta);
 
-	glVertex2f(x1, y1);
-	glVertex2f(x2, y2);
+		glVertex2f(x1, y1);
+		glVertex2f(x2, y2);
 	glEnd();
 }
 
@@ -71,8 +70,13 @@ void drawSuperTreeCurve()
 		}		
 	glPopMatrix();
 	
-	if (animateTreeTop >= 0 || animateTrunk >=0) {
+	if (animateTreeTop >= 0) {
 		animateTreeTop -= counter;
+		
+	}
+	 
+	if (animateTrunk >= 0) {
+		animateTrunk -= counter;
 	}
 }
 
@@ -200,29 +204,38 @@ void drawFlyer()
 	double theta, nextTheta;
 	double x1, y1;
 	double x2, y2;
-
+	
 	glColor3f(1,0,0);
 	glPushMatrix();
 		glTranslatef(0,13,0);
 
-		for (int j = 0; j <= 360 - animateFlyerWheel; j+=40)   {
-			theta = (3.14259 / 180) * j;
-			nextTheta = (3.14259 / 180) * (j + 1);
-			x1 = sin(theta); y1 = cos(theta);
-			x2 = sin(nextTheta); y2 = cos(nextTheta);
 		
-			glPushMatrix();
-				glTranslatef(11*x1, 11*y1,0);
-				glScalef(0.5, 0.5, 0.5);
-				for (int i = 0; i <= 360; i++)   {
-					makeCircle(i);
-				}
-			glPopMatrix();
-		}
-
+			turningXOne += 0.1;
+		
+		
 		if (animateFlyerWheel >= 0) {
-			animateFlyerWheel -= counter * 2;
+			animateFlyerWheel -= counter * 5;
+		} else {
+			for (int j = 0; j <= 360; j += 40)   {
+				theta = (3.14259 / 180) * j;
+				nextTheta = (3.14259 / 180) * (j + turningXOne);
+				x1 = sin(theta); y1 = cos(theta);
+				x2 = sin(nextTheta); y2 = cos(nextTheta);
+
+				glPushMatrix();
+					glTranslatef(11*x2, 11*y2, 0);
+
+					glScalef(0.5, 0.5, 0.5);
+					for (int i = 0; i <= 360; i++)   {
+						makeCircle(i);
+					}
+				glPopMatrix();
+			}
+
+			
 		}
+		
+		
 	glPopMatrix();
 
 }
