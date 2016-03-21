@@ -1,0 +1,10 @@
+A0129650E
+Name: Tee Woan Chin
+
+I have modified the display function, idle function, keyboard function and planet 
+class.
+
+I made the planets jump by using the sin function! So that it can oscillate
+between values. I thought this method was quite smart. 
+
+Thank you.

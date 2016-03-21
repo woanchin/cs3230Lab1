@@ -1,0 +1,15 @@
+Matriculation Number: A129650E
+I drew a wine bottle and two wine glasses because I am currently craving for
+some alcohol.
+
+I used scale to modify the sphere into a wine glass/cup shape. 
+I did the appropriate transformation to fit each 3d object together.
+I used a recursive method to form the stalk of the wine glass. 
+
+I modified display and added in my own methods to create the relevant objects.
+
+The coolest thing in my drawing is that there is actually wine in the wine glasses,
+when my wine bottle is unopened! 
+
+Both glasses and bottle are made of glass.
+
