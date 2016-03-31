@@ -172,7 +172,10 @@ void keyboard (unsigned char key, int x, int y)
 
 		case 'e':
 		case 'E':
-			// Do something to erase all the control points added
+			for (int i = 0; i < nPt; i++) {
+				ptList[i];
+			}
+			nPt = 0;
 
 		break;
 
